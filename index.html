@@ -3,35 +3,836 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Forex Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SupportEnterprise | Global Support Dashboard</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Enterprise Color Palette */
+            --primary: #2563eb;         /* Blue */
+            --primary-soft: #dbeafe;
+            --success: #059669;         /* Emerald */
+            --success-soft: #d1fae5;
+            --warning: #d97706;         /* Amber */
+            --warning-soft: #fef3c7;
+            --danger: #dc2626;          /* Red */
+            --danger-soft: #fee2e2;
+            --info: #4f46e5;            /* Indigo */
+            --info-soft: #e0e7ff;
+            
+            --sidebar-bg: #111827;      /* Slate 900 */
+            --sidebar-hover: #1f2937;   /* Slate 800 */
+            --bg-body: #f3f4f6;         /* Gray 100 */
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling (Dense) */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-bg);
+            color: white;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-logo i {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            color: #9ca3af;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--sidebar-hover);
+            color: white;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-section-title {
+            padding: 20px 26px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #4b5563;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Top Header */
+        .top-header {
+            position: sticky;
+            top: 0;
+            left: 240px;
+            width: calc(100% - 240px);
+            height: 64px;
+            background-color: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 90;
+            margin-left: 240px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .search-box {
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 400px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--info-soft);
+            color: var(--info);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        /* Main Layout */
+        .main-wrapper {
+            margin-left: 240px;
+            padding: 24px 32px;
+            width: calc(100% - 240px);
+            display: flex;
+            gap: 24px;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .activity-area {
+            width: 320px;
+            flex-shrink: 0;
+        }
+
+        /* Metric Grid (8 Cards) */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .metric-icon {
+            font-size: 14px;
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .metric-value {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-trend {
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .m-blue { background: var(--primary-soft); color: var(--primary); }
+        .m-green { background: var(--success-soft); color: var(--success); }
+        .m-yellow { background: var(--warning-soft); color: var(--warning); }
+        .m-red { background: var(--danger-soft); color: var(--danger); }
+        .m-purple { background: var(--info-soft); color: var(--info); }
+
+        /* Tables */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .btn-text {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .ticket-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ticket-table th {
+            text-align: left;
+            padding: 12px 20px;
+            background: #f9fafb;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ticket-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .ticket-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ticket-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-p-high { background: var(--danger-soft); color: var(--danger); }
+        .badge-p-med { background: var(--warning-soft); color: var(--warning); }
+        .badge-p-low { background: var(--success-soft); color: var(--success); }
+
+        .badge-s-open { background: var(--primary-soft); color: var(--primary); }
+        .badge-s-pending { background: #f3f4f6; color: #4b5563; }
+
+        /* Activity Feed */
+        .activity-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .activity-content {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .activity-user {
+            font-weight: 700;
+        }
+
+        /* Charts Section */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .chart-container {
+            height: 200px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* SVG Line Chart */
+        .line-chart-svg { width: 100%; height: 100%; }
+        .chart-path { fill: none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; }
+        .chart-area { fill: url(#lineGrad); opacity: 0.1; }
+
+        /* Donut Chart */
+        .donut-chart-svg { width: 160px; height: 160px; transform: rotate(-90deg); margin: 0 auto; display: block; }
+        .donut-ring { fill: transparent; stroke-width: 20; }
+        .donut-segment { fill: transparent; stroke-width: 20; stroke-dasharray: 100 100; transition: stroke-dashoffset 0.3s; }
+
+        .donut-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .donut-center-val { font-size: 20px; font-weight: 800; display: block; }
+        .donut-center-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+
+        .chart-legend {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .metric-grid { grid-template-columns: repeat(2, 1fr); }
+            .activity-area { display: none; }
+            .top-header, .main-wrapper { width: calc(100% - 240px); left: 240px; margin-left: 240px; }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 80px; }
+            .sidebar-logo span, .nav-link span, .nav-section-title { display: none; }
+            .top-header, .main-wrapper { width: calc(100% - 80px); left: 80px; margin-left: 80px; }
+            .charts-row { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-title">FX<span>Support</span></div>
-            <p class="auth-subtitle">Login to your agent dashboard</p>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" placeholder="agent@brokerage.com" required>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-shield-alt"></i> <span>SupportEnterprise</span>
+        </div>
+
+        <nav>
+            <div class="nav-section-title">Core</div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-th-large"></i> <span>Overview</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-ticket-alt"></i> <span>Ticketing</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-users"></i> <span>Clients</span></a></li>
+            </ul>
+
+            <div class="nav-section-title">Analysis</div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> <span>Performance</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-clock"></i> <span>SLA Tracking</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> <span>Report Builder</span></a></li>
+            </ul>
+
+            <div class="nav-section-title">System</div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-user-friends"></i> <span>Agent Teams</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cog"></i> <span>Configuration</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div style="flex: 1;">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <div class="search-box">
+                    <i class="fas fa-search" style="color: #9ca3af;"></i>
+                    <input type="text" placeholder="Global search for tickets, agents, or knowledge base...">
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+                <button class="icon-btn"><i class="far fa-question-circle"></i></button>
+                <div class="user-profile">
+                    <span style="font-size: 13px; font-weight: 600; text-align: right;">
+                        Alex Sterling<br>
+                        <span style="font-size: 11px; color: var(--text-muted); font-weight: 400;">Global Admin</span>
+                    </span>
+                    <div class="user-avatar">AS</div>
                 </div>
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-            
-            <div class="auth-footer">
-                Don't have an account? <a href="signup.html">Sign Up</a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <div class="content-area">
+                <!-- Metrics Grid -->
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-folder-open metric-icon m-blue"></i>
+                            <span class="metric-trend trend-up" style="color: var(--success);"><i class="fas fa-caret-up"></i> 8%</span>
+                        </div>
+                        <span class="metric-label">Open Tickets</span>
+                        <span class="metric-value">1,284</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-hourglass-half metric-icon m-yellow"></i>
+                            <span class="metric-trend trend-down" style="color: var(--danger);"><i class="fas fa-caret-down"></i> 3%</span>
+                        </div>
+                        <span class="metric-label">Pending Response</span>
+                        <span class="metric-value">492</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-check-circle metric-icon m-green"></i>
+                            <span class="metric-trend trend-up" style="color: var(--success);"><i class="fas fa-caret-up"></i> 12%</span>
+                        </div>
+                        <span class="metric-label">Resolved Today</span>
+                        <span class="metric-value">842</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-history metric-icon m-purple"></i>
+                            <span class="metric-trend" style="color: var(--text-muted);">Stable</span>
+                        </div>
+                        <span class="metric-label">Reopened</span>
+                        <span class="metric-value">24</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-star metric-icon m-green"></i>
+                            <span class="metric-trend trend-up" style="color: var(--success);">+0.2</span>
+                        </div>
+                        <span class="metric-label">CSAT Score</span>
+                        <span class="metric-value">4.92/5</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-bolt metric-icon m-blue"></i>
+                            <span class="metric-trend trend-up" style="color: var(--success);">-2.4m</span>
+                        </div>
+                        <span class="metric-label">Avg Response</span>
+                        <span class="metric-value">14.2m</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-exclamation-triangle metric-icon m-red"></i>
+                            <span class="metric-trend trend-down" style="color: var(--danger);">Critical</span>
+                        </div>
+                        <span class="metric-label">SLA Breaches</span>
+                        <span class="metric-value">3</span>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-user-tag metric-icon m-purple"></i>
+                            <span class="metric-trend" style="color: var(--text-muted);">98% Capacity</span>
+                        </div>
+                        <span class="metric-label">Assigned Agents</span>
+                        <span class="metric-value">142</span>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Weekly Ticket Volume Trend</h3>
+                            <a href="#" class="btn-text">Detailed Analysis</a>
+                        </div>
+                        <div style="padding: 24px;">
+                            <div class="chart-container">
+                                <svg class="line-chart-svg" viewBox="0 0 1000 200">
+                                    <defs>
+                                        <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.4" />
+                                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path class="chart-area" d="M0,180 L140,140 L280,160 L420,80 L560,110 L700,40 L840,70 L1000,90 L1000,200 L0,200 Z" />
+                                    <polyline class="chart-path" points="0,180 140,140 280,160 420,80 560,110 700,40 840,70 1000,90" />
+                                </svg>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: var(--text-muted); font-weight: 700;">
+                                <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Source Breakdown</h3>
+                        </div>
+                        <div style="padding: 24px; position: relative;">
+                            <div class="chart-container" style="height: 160px;">
+                                <svg class="donut-chart-svg" viewBox="0 0 100 100">
+                                    <circle class="donut-ring" cx="50" cy="50" r="40" stroke="#f3f4f6" />
+                                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--primary)" stroke-dasharray="60 100" stroke-dashoffset="0" />
+                                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--success)" stroke-dasharray="25 100" stroke-dashoffset="-60" />
+                                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--warning)" stroke-dasharray="15 100" stroke-dashoffset="-85" />
+                                </svg>
+                                <div class="donut-center-text">
+                                    <span class="donut-center-val">2.8k</span>
+                                    <span class="donut-center-label">Total</span>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span><span class="legend-dot" style="background: var(--primary);"></span>Email</span>
+                                    <span>60%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span><span class="legend-dot" style="background: var(--success);"></span>Live Chat</span>
+                                    <span>25%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span><span class="legend-dot" style="background: var(--warning);"></span>Phone</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tickets Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Live Tickets Queue</h3>
+                        <div style="display: flex; gap: 12px;">
+                            <select style="font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); outline: none;">
+                                <option>All Status</option>
+                                <option>Open</option>
+                                <option>Pending</option>
+                            </select>
+                            <a href="#" class="btn-text">Export CSV</a>
+                        </div>
+                    </div>
+                    <table class="ticket-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer</th>
+                                <th>Subject</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned Agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 700;">#TCK-8821</td>
+                                <td>Global Corp Int.</td>
+                                <td style="font-weight: 600;">API Authentication Failure in Production</td>
+                                <td><span class="badge badge-p-high">High</span></td>
+                                <td><span class="badge badge-s-open">Open</span></td>
+                                <td>Elena Rodriguez</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">#TCK-8820</td>
+                                <td>Sarah Jenkins</td>
+                                <td style="font-weight: 600;">Billing Dispute: Invoice #INV-2291</td>
+                                <td><span class="badge badge-p-med">Medium</span></td>
+                                <td><span class="badge badge-s-pending">Pending</span></td>
+                                <td>Marcus Aurelius</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">#TCK-8819</td>
+                                <td>TechFlow Ltd.</td>
+                                <td style="font-weight: 600;">Custom Integration Webhook Delay</td>
+                                <td><span class="badge badge-p-high">High</span></td>
+                                <td><span class="badge badge-s-open">Open</span></td>
+                                <td>Julia Vance</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">#TCK-8818</td>
+                                <td>Michael O'Brien</td>
+                                <td style="font-weight: 600;">Password Reset Loop Issue</td>
+                                <td><span class="badge badge-p-low">Low</span></td>
+                                <td><span class="badge badge-s-open">Open</span></td>
+                                <td>John Doe</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">#TCK-8817</td>
+                                <td>CloudX Systems</td>
+                                <td style="font-weight: 600;">New Enterprise Seat Allocation</td>
+                                <td><span class="badge badge-p-med">Medium</span></td>
+                                <td><span class="badge badge-s-open">Open</span></td>
+                                <td>Sarah Parker</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Activity Area -->
+            <div class="activity-area">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Team Activity</h3>
+                    </div>
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: var(--primary-soft); color: var(--primary);">ER</div>
+                            <div class="activity-content">
+                                <span class="activity-user">Elena Rodriguez</span> closed <span style="font-weight: 600;">#TCK-8712</span> (Database Latency)
+                                <div class="activity-time">2 mins ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: var(--success-soft); color: var(--success);">SP</div>
+                            <div class="activity-content">
+                                <span class="activity-user">Sarah Parker</span> responded to <span style="font-weight: 600;">#TCK-8817</span>
+                                <div class="activity-time">12 mins ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: var(--info-soft); color: var(--info);">JV</div>
+                            <div class="activity-content">
+                                <span class="activity-user">Julia Vance</span> escalated <span style="font-weight: 600;">#TCK-8819</span> to Engineering
+                                <div class="activity-time">24 mins ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: #f3f4f6;">MD</div>
+                            <div class="activity-content">
+                                <span class="activity-user">Marcus Day</span> reopened <span style="font-weight: 600;">#TCK-8650</span> (Feature Request)
+                                <div class="activity-time">1h ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: var(--primary-soft); color: var(--primary);">JD</div>
+                            <div class="activity-content">
+                                <span class="activity-user">John Doe</span> assigned <span style="font-weight: 600;">#TCK-8818</span> to self
+                                <div class="activity-time">1.5h ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: var(--warning-soft); color: var(--warning);">AS</div>
+                            <div class="activity-content">
+                                <span class="activity-user">System</span> generated 14 weekly reports
+                                <div class="activity-time">3h ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar" style="background: var(--danger-soft); color: var(--danger);">!!</div>
+                            <div class="activity-content">
+                                <span class="activity-user">Alert</span> SLA breach on <span style="font-weight: 600;">#TCK-8210</span>
+                                <div class="activity-time">4h ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 16px; text-align: center; border-top: 1px solid var(--border);">
+                        <a href="#" class="btn-text" style="font-size: 12px;">View All Activity</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simple interaction for the dashboard
+            console.log('Enterprise Support Dashboard Loaded');
+            
+            // Handle profile click
+            document.querySelector('.user-profile').addEventListener('click', () => {
+                alert('User Profile Settings Coming Soon');
+            });
+
+            // Handle search
+            const searchInput = document.querySelector('.search-box input');
+            searchInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') {
+                    alert('Searching for: ' + searchInput.value);
+                }
+            });
+
+            // Handle Ticket Row Click
+            const rows = document.querySelectorAll('.ticket-table tr');
+            rows.forEach((row, index) => {
+                if(index > 0) { // Skip header
+                    row.style.cursor = 'pointer';
+                    row.addEventListener('click', () => {
+                        const id = row.querySelector('td').innerText;
+                        alert('Opening Ticket Detail: ' + id);
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
