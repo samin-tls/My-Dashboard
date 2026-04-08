@@ -3,35 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SupportEnterprise | Global Support Dashboard</title>
+    <title>SupportPro | Enterprise Glassmorphism (Final Edition)</title>
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* Enterprise Color Palette */
-            --primary: #2563eb;         /* Blue */
-            --primary-soft: #dbeafe;
-            --success: #059669;         /* Emerald */
-            --success-soft: #d1fae5;
-            --warning: #d97706;         /* Amber */
-            --warning-soft: #fef3c7;
-            --danger: #dc2626;          /* Red */
-            --danger-soft: #fee2e2;
-            --info: #4f46e5;            /* Indigo */
-            --info-soft: #e0e7ff;
+            /* Light Mode Variables (Default) */
+            --bg-body: #f0f2f5;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
             
-            --sidebar-bg: #111827;      /* Slate 900 */
-            --sidebar-hover: #1f2937;   /* Slate 800 */
-            --bg-body: #f3f4f6;         /* Gray 100 */
-            --bg-card: #ffffff;
-            --text-main: #111827;
+            --primary: #3b82f6;
+            --primary-soft: #dbeafe;
+            --success: #10b981;
+            --success-soft: #d1fae5;
+            --warning: #f59e0b;
+            --warning-soft: #fef3c7;
+            --danger: #ef4444;
+            --danger-soft: #fee2e2;
+            --info: #8b5cf6;
+            --info-soft: #ede9fe;
+            
+            --text-main: #1f2937;
             --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --radius: 10px;
+            --border-thin: rgba(0, 0, 0, 0.05);
+            --card-bg: #ffffff;
+            --table-header-bg: #f9fafb;
+            
+            --sidebar-width: 260px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+
+            /* Chic Action Colors */
+            --chic-emerald: rgba(80, 141, 105, 0.85);
+            --chic-lavender: rgba(159, 134, 192, 0.85);
+            --chic-midnight: rgba(44, 62, 80, 0.85);
+            --chic-gold: rgba(227, 192, 141, 0.85);
+            --chic-slate: rgba(112, 128, 144, 0.85);
+            --chic-rose: rgba(244, 162, 97, 0.85);
+            --chic-sky: rgba(142, 202, 230, 0.85);
+            --chic-violet: rgba(139, 92, 246, 0.85);
+        }
+
+        /* Dark Mode Override */
+        [data-theme="dark"] {
+            --bg-body: #0b0f19;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3af;
+            --border-thin: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --table-header-bg: rgba(15, 23, 42, 0.9);
+            
+            --primary-soft: rgba(59, 130, 246, 0.1);
+            --success-soft: rgba(16, 185, 129, 0.1);
+            --warning-soft: rgba(245, 158, 11, 0.1);
+            --danger-soft: rgba(239, 68, 68, 0.1);
+            --info-soft: rgba(139, 92, 246, 0.1);
         }
 
         * {
@@ -44,33 +79,42 @@
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
-            display: flex;
             min-height: 100vh;
+            display: flex;
             overflow-x: hidden;
+            transition: var(--transition);
         }
 
-        /* Sidebar Styling (Dense) */
+        /* Floating Glass Sidebar */
         .sidebar {
-            width: 240px;
-            background-color: var(--sidebar-bg);
-            color: white;
-            padding: 20px 0;
+            width: var(--sidebar-width);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            position: fixed;
+            top: 20px;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            z-index: 100;
+            padding: 30px 20px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
         }
 
         .sidebar-logo {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 30px;
-            padding: 0 20px;
+            margin-bottom: 40px;
+            padding-left: 10px;
             font-size: 18px;
             font-weight: 800;
             letter-spacing: -0.5px;
+            color: var(--text-main);
         }
 
         .sidebar-logo i {
@@ -80,314 +124,249 @@
 
         .sidebar-nav {
             list-style: none;
-            padding: 0 12px;
+            flex: 1;
         }
 
-        .nav-item {
-            margin-bottom: 4px;
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            padding-left: 12px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            color: #9ca3af;
+            gap: 14px;
+            padding: 12px 16px;
+            color: var(--text-muted);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 14px;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
         .nav-link:hover {
-            background-color: var(--sidebar-hover);
-            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
         }
 
         .nav-link.active {
-            background-color: var(--primary);
-            color: white;
+            background: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
-        .nav-link i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .nav-section-title {
-            padding: 20px 26px 10px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #4b5563;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* Top Header */
-        .top-header {
-            position: sticky;
-            top: 0;
-            left: 240px;
-            width: calc(100% - 240px);
-            height: 64px;
-            background-color: white;
-            border-bottom: 1px solid var(--border);
+        /* Top Glass Toolbar */
+        .top-toolbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            left: calc(var(--sidebar-width) + 60px);
+            height: 72px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            z-index: 900;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
-            z-index: 90;
-            margin-left: 240px;
+            padding: 0 24px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
         }
 
-        .header-left {
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 400px;
+            border: 1px solid var(--border-thin);
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 20px;
-            flex: 1;
         }
 
-        .search-box {
-            background: #f9fafb;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 400px;
-        }
-
-        .search-box input {
-            border: none;
-            outline: none;
-            background: transparent;
-            width: 100%;
-            font-size: 14px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 18px;
+        /* Theme Toggle Button */
+        #themeToggle {
+            width: 44px;
+            height: 44px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-thin);
+            border-radius: 12px;
             cursor: pointer;
-            position: relative;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 8px;
-            height: 8px;
-            background: var(--danger);
-            border-radius: 50%;
-            border: 2px solid white;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: var(--info-soft);
-            color: var(--info);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 13px;
+            font-size: 18px;
+            color: var(--text-muted);
+            transition: var(--transition);
         }
 
-        /* Main Layout */
-        .main-wrapper {
-            margin-left: 240px;
-            padding: 24px 32px;
-            width: calc(100% - 240px);
+        #themeToggle:hover {
+            color: var(--primary);
+            transform: rotate(15deg);
+        }
+
+        /* Action Center */
+        .action-center {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-emerald { background: var(--chic-emerald); }
+        .btn-lavender { background: var(--chic-lavender); }
+        .btn-midnight { background: var(--chic-midnight); }
+        .btn-gold { background: var(--chic-gold); }
+        .btn-slate { background: var(--chic-slate); }
+        .btn-rose { background: var(--chic-rose); }
+        .btn-sky { background: var(--chic-sky); }
+        .btn-violet { background: var(--chic-violet); }
+
+        /* KPI Grid */
+        .main-content {
+            flex: 1;
+            margin-left: calc(var(--sidebar-width) + 40px);
+            padding: 112px 20px 20px;
             display: flex;
             gap: 24px;
+            transition: var(--transition);
         }
 
-        .content-area {
+        .data-center {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 24px;
         }
 
-        .activity-area {
-            width: 320px;
-            flex-shrink: 0;
-        }
-
-        /* Metric Grid (8 Cards) */
-        .metric-grid {
+        .kpi-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
         }
 
-        .metric-card {
-            background: white;
-            padding: 16px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
+        .kpi-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-thin);
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
+            transition: var(--transition);
         }
 
-        .metric-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .metric-icon {
-            font-size: 14px;
-            padding: 6px;
-            border-radius: 6px;
-        }
-
-        .metric-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .metric-value {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .metric-trend {
-            font-size: 11px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .m-blue { background: var(--primary-soft); color: var(--primary); }
-        .m-green { background: var(--success-soft); color: var(--success); }
-        .m-yellow { background: var(--warning-soft); color: var(--warning); }
-        .m-red { background: var(--danger-soft); color: var(--danger); }
-        .m-purple { background: var(--info-soft); color: var(--info); }
-
-        /* Tables */
-        .card {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
+        /* Section Cards */
+        .section-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-thin);
             overflow: hidden;
+            transition: var(--transition);
         }
 
-        .card-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
+        .section-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-thin);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .card-title {
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .btn-text {
-            color: var(--primary);
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .ticket-table {
+        .data-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .ticket-table th {
+        .data-table th {
             text-align: left;
-            padding: 12px 20px;
-            background: #f9fafb;
+            padding: 14px 24px;
+            background: var(--table-header-bg);
             font-size: 11px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-thin);
         }
 
-        .ticket-table td {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
+        .data-table td {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border-thin);
+            font-size: 14px;
         }
 
-        .ticket-table tr:last-child td {
-            border-bottom: none;
+        /* Activity Sidebar */
+        .activity-sidebar {
+            width: 320px;
+            flex-shrink: 0;
         }
 
-        .ticket-table tr:hover {
-            background-color: #f9fafb;
-        }
-
-        .badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .badge-p-high { background: var(--danger-soft); color: var(--danger); }
-        .badge-p-med { background: var(--warning-soft); color: var(--warning); }
-        .badge-p-low { background: var(--success-soft); color: var(--success); }
-
-        .badge-s-open { background: var(--primary-soft); color: var(--primary); }
-        .badge-s-pending { background: #f3f4f6; color: #4b5563; }
-
-        /* Activity Feed */
-        .activity-feed {
+        .activity-list {
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            padding: 20px;
+            gap: 20px;
         }
 
         .activity-item {
             display: flex;
-            gap: 12px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #f3f4f6;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
+            gap: 14px;
         }
 
         .activity-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #e2e8f0;
+            background: var(--table-header-bg);
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -396,442 +375,282 @@
             font-weight: 700;
         }
 
-        .activity-content {
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        .activity-time {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .activity-user {
-            font-weight: 700;
-        }
-
         /* Charts Section */
         .charts-row {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 2fr 1.2fr;
             gap: 24px;
         }
 
-        .chart-container {
+        .chart-box {
             height: 200px;
-            width: 100%;
-            position: relative;
+            padding: 0 24px 24px;
         }
 
-        /* SVG Line Chart */
-        .line-chart-svg { width: 100%; height: 100%; }
-        .chart-path { fill: none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; }
-        .chart-area { fill: url(#lineGrad); opacity: 0.1; }
-
-        /* Donut Chart */
-        .donut-chart-svg { width: 160px; height: 160px; transform: rotate(-90deg); margin: 0 auto; display: block; }
-        .donut-ring { fill: transparent; stroke-width: 20; }
-        .donut-segment { fill: transparent; stroke-width: 20; stroke-dasharray: 100 100; transition: stroke-dashoffset 0.3s; }
-
-        .donut-center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .donut-center-val { font-size: 20px; font-weight: 800; display: block; }
-        .donut-center-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
-
-        .chart-legend {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .legend-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            display: inline-block;
-            margin-right: 8px;
+        .line-chart-svg path {
+            stroke: var(--primary);
+            transition: stroke 0.4s ease;
         }
 
         /* Responsive */
         @media (max-width: 1400px) {
-            .metric-grid { grid-template-columns: repeat(2, 1fr); }
-            .activity-area { display: none; }
-            .top-header, .main-wrapper { width: calc(100% - 240px); left: 240px; margin-left: 240px; }
+            .activity-sidebar { display: none; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 1024px) {
-            .sidebar { width: 80px; }
-            .sidebar-logo span, .nav-link span, .nav-section-title { display: none; }
-            .top-header, .main-wrapper { width: calc(100% - 80px); left: 80px; margin-left: 80px; }
-            .charts-row { grid-template-columns: 1fr; }
+            .sidebar { width: 80px; padding: 20px 10px; }
+            .sidebar-logo span, .nav-text, .nav-title { display: none; }
+            .top-toolbar { left: 120px; }
+            .main-content { margin-left: 100px; }
+            .search-bar { width: 250px; }
         }
     </style>
 </head>
-<body>
-    <!-- Sidebar -->
+<body data-theme="light">
+    <!-- Floating Glass Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-logo">
-            <i class="fas fa-shield-alt"></i> <span>SupportEnterprise</span>
+            <i class="fas fa-cube"></i> <span>SupportEnterprise</span>
         </div>
 
-        <nav>
-            <div class="nav-section-title">Core</div>
-            <ul class="sidebar-nav">
-                <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-th-large"></i> <span>Overview</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-ticket-alt"></i> <span>Ticketing</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-users"></i> <span>Clients</span></a></li>
-            </ul>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-title">Menu</div>
+                <a href="#" class="nav-link active"><i class="fas fa-home"></i> <span class="nav-text">Overview</span></a>
+                <a href="tickets.html" class="nav-link"><i class="fas fa-ticket-alt"></i> <span class="nav-text">Tickets</span></a>
+                <a href="#" class="nav-link"><i class="fas fa-users"></i> <span class="nav-text">Customers</span></a>
+            </div>
 
-            <div class="nav-section-title">Analysis</div>
-            <ul class="sidebar-nav">
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> <span>Performance</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-clock"></i> <span>SLA Tracking</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> <span>Report Builder</span></a></li>
-            </ul>
+            <div class="nav-section">
+                <div class="nav-title">Analysis</div>
+                <a href="analytics.html" class="nav-link"><i class="fas fa-chart-line"></i> <span class="nav-text">Performance</span></a>
+                <a href="#" class="nav-link"><i class="fas fa-history"></i> <span class="nav-text">SLA Tracking</span></a>
+            </div>
 
-            <div class="nav-section-title">System</div>
-            <ul class="sidebar-nav">
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-user-friends"></i> <span>Agent Teams</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cog"></i> <span>Configuration</span></a></li>
-            </ul>
+            <div class="nav-section">
+                <div class="nav-title">System</div>
+                <a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> <span class="nav-text">Settings</span></a>
+            </div>
         </nav>
     </aside>
 
-    <div style="flex: 1;">
-        <!-- Header -->
-        <header class="top-header">
-            <div class="header-left">
-                <div class="search-box">
-                    <i class="fas fa-search" style="color: #9ca3af;"></i>
-                    <input type="text" placeholder="Global search for tickets, agents, or knowledge base...">
-                </div>
+    <div class="main-content">
+        <!-- Glass Top Toolbar -->
+        <header class="top-toolbar">
+            <div class="search-bar">
+                <i class="fas fa-search" style="color: var(--text-muted);"></i>
+                <input type="text" placeholder="Search enterprise data...">
             </div>
-            <div class="header-right">
-                <button class="icon-btn">
-                    <i class="far fa-bell"></i>
-                    <span class="notification-badge"></span>
+
+            <div class="header-actions">
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-                <button class="icon-btn"><i class="far fa-question-circle"></i></button>
-                <div class="user-profile">
-                    <span style="font-size: 13px; font-weight: 600; text-align: right;">
-                        Alex Sterling<br>
-                        <span style="font-size: 11px; color: var(--text-muted); font-weight: 400;">Global Admin</span>
-                    </span>
+                <div class="action-icon"><i class="far fa-bell"></i></div>
+                <div class="user-widget">
                     <div class="user-avatar">AS</div>
+                    <span style="font-size: 13px; font-weight: 700;">Alex Sterling</span>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <div class="main-wrapper">
-            <div class="content-area">
-                <!-- Metrics Grid -->
-                <div class="metric-grid">
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-folder-open metric-icon m-blue"></i>
-                            <span class="metric-trend trend-up" style="color: var(--success);"><i class="fas fa-caret-up"></i> 8%</span>
-                        </div>
-                        <span class="metric-label">Open Tickets</span>
-                        <span class="metric-value">1,284</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-hourglass-half metric-icon m-yellow"></i>
-                            <span class="metric-trend trend-down" style="color: var(--danger);"><i class="fas fa-caret-down"></i> 3%</span>
-                        </div>
-                        <span class="metric-label">Pending Response</span>
-                        <span class="metric-value">492</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-check-circle metric-icon m-green"></i>
-                            <span class="metric-trend trend-up" style="color: var(--success);"><i class="fas fa-caret-up"></i> 12%</span>
-                        </div>
-                        <span class="metric-label">Resolved Today</span>
-                        <span class="metric-value">842</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-history metric-icon m-purple"></i>
-                            <span class="metric-trend" style="color: var(--text-muted);">Stable</span>
-                        </div>
-                        <span class="metric-label">Reopened</span>
-                        <span class="metric-value">24</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-star metric-icon m-green"></i>
-                            <span class="metric-trend trend-up" style="color: var(--success);">+0.2</span>
-                        </div>
-                        <span class="metric-label">CSAT Score</span>
-                        <span class="metric-value">4.92/5</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-bolt metric-icon m-blue"></i>
-                            <span class="metric-trend trend-up" style="color: var(--success);">-2.4m</span>
-                        </div>
-                        <span class="metric-label">Avg Response</span>
-                        <span class="metric-value">14.2m</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-exclamation-triangle metric-icon m-red"></i>
-                            <span class="metric-trend trend-down" style="color: var(--danger);">Critical</span>
-                        </div>
-                        <span class="metric-label">SLA Breaches</span>
-                        <span class="metric-value">3</span>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <i class="fas fa-user-tag metric-icon m-purple"></i>
-                            <span class="metric-trend" style="color: var(--text-muted);">98% Capacity</span>
-                        </div>
-                        <span class="metric-label">Assigned Agents</span>
-                        <span class="metric-value">142</span>
-                    </div>
-                </div>
+        <div class="data-center">
+            <!-- Action Control Center -->
+            <section class="action-center">
+                <a href="tickets.html" class="action-btn btn-emerald"><i class="fas fa-ticket-alt"></i> Tickets</a>
+                <a href="analytics.html" class="action-btn btn-lavender"><i class="fas fa-chart-line"></i> Analytics</a>
+                <a href="team.html" class="action-btn btn-midnight"><i class="fas fa-users"></i> Team</a>
+                <a href="reports.html" class="action-btn btn-gold"><i class="fas fa-file-alt"></i> Reports</a>
+                <a href="chat.html" class="action-btn btn-rose"><i class="fas fa-comments"></i> Live Chat</a>
+                <a href="settings.html" class="action-btn btn-slate"><i class="fas fa-cog"></i> Settings</a>
+                <a href="support.html" class="action-btn btn-sky"><i class="fas fa-headset"></i> Support</a>
+                <a href="profile.html" class="action-btn btn-violet"><i class="fas fa-user-circle"></i> Profile</a>
+            </section>
 
-                <!-- Charts Row -->
-                <div class="charts-row">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Weekly Ticket Volume Trend</h3>
-                            <a href="#" class="btn-text">Detailed Analysis</a>
-                        </div>
-                        <div style="padding: 24px;">
-                            <div class="chart-container">
-                                <svg class="line-chart-svg" viewBox="0 0 1000 200">
-                                    <defs>
-                                        <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.4" />
-                                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
-                                        </linearGradient>
-                                    </defs>
-                                    <path class="chart-area" d="M0,180 L140,140 L280,160 L420,80 L560,110 L700,40 L840,70 L1000,90 L1000,200 L0,200 Z" />
-                                    <polyline class="chart-path" points="0,180 140,140 280,160 420,80 560,110 700,40 840,70 1000,90" />
-                                </svg>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: var(--text-muted); font-weight: 700;">
-                                <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
-                            </div>
-                        </div>
+            <!-- 8 KPI Cards Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--primary-soft); color: var(--primary);"><i class="fas fa-envelope-open"></i></div>
+                        <span style="color: var(--success); font-size: 11px; font-weight: 700;"><i class="fas fa-arrow-up"></i> 8%</span>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Source Breakdown</h3>
-                        </div>
-                        <div style="padding: 24px; position: relative;">
-                            <div class="chart-container" style="height: 160px;">
-                                <svg class="donut-chart-svg" viewBox="0 0 100 100">
-                                    <circle class="donut-ring" cx="50" cy="50" r="40" stroke="#f3f4f6" />
-                                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--primary)" stroke-dasharray="60 100" stroke-dashoffset="0" />
-                                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--success)" stroke-dasharray="25 100" stroke-dashoffset="-60" />
-                                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--warning)" stroke-dasharray="15 100" stroke-dashoffset="-85" />
-                                </svg>
-                                <div class="donut-center-text">
-                                    <span class="donut-center-val">2.8k</span>
-                                    <span class="donut-center-label">Total</span>
-                                </div>
-                            </div>
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <span><span class="legend-dot" style="background: var(--primary);"></span>Email</span>
-                                    <span>60%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span><span class="legend-dot" style="background: var(--success);"></span>Live Chat</span>
-                                    <span>25%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span><span class="legend-dot" style="background: var(--warning);"></span>Phone</span>
-                                    <span>15%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="kpi-label">Open Tickets</span>
+                    <span class="kpi-value">1,284</span>
                 </div>
-
-                <!-- Tickets Table -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Live Tickets Queue</h3>
-                        <div style="display: flex; gap: 12px;">
-                            <select style="font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); outline: none;">
-                                <option>All Status</option>
-                                <option>Open</option>
-                                <option>Pending</option>
-                            </select>
-                            <a href="#" class="btn-text">Export CSV</a>
-                        </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--warning-soft); color: var(--warning);"><i class="fas fa-hourglass-start"></i></div>
+                        <span style="color: var(--danger); font-size: 11px; font-weight: 700;"><i class="fas fa-arrow-down"></i> 3%</span>
                     </div>
-                    <table class="ticket-table">
-                        <thead>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Customer</th>
-                                <th>Subject</th>
-                                <th>Priority</th>
-                                <th>Status</th>
-                                <th>Assigned Agent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-weight: 700;">#TCK-8821</td>
-                                <td>Global Corp Int.</td>
-                                <td style="font-weight: 600;">API Authentication Failure in Production</td>
-                                <td><span class="badge badge-p-high">High</span></td>
-                                <td><span class="badge badge-s-open">Open</span></td>
-                                <td>Elena Rodriguez</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 700;">#TCK-8820</td>
-                                <td>Sarah Jenkins</td>
-                                <td style="font-weight: 600;">Billing Dispute: Invoice #INV-2291</td>
-                                <td><span class="badge badge-p-med">Medium</span></td>
-                                <td><span class="badge badge-s-pending">Pending</span></td>
-                                <td>Marcus Aurelius</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 700;">#TCK-8819</td>
-                                <td>TechFlow Ltd.</td>
-                                <td style="font-weight: 600;">Custom Integration Webhook Delay</td>
-                                <td><span class="badge badge-p-high">High</span></td>
-                                <td><span class="badge badge-s-open">Open</span></td>
-                                <td>Julia Vance</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 700;">#TCK-8818</td>
-                                <td>Michael O'Brien</td>
-                                <td style="font-weight: 600;">Password Reset Loop Issue</td>
-                                <td><span class="badge badge-p-low">Low</span></td>
-                                <td><span class="badge badge-s-open">Open</span></td>
-                                <td>John Doe</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: 700;">#TCK-8817</td>
-                                <td>CloudX Systems</td>
-                                <td style="font-weight: 600;">New Enterprise Seat Allocation</td>
-                                <td><span class="badge badge-p-med">Medium</span></td>
-                                <td><span class="badge badge-s-open">Open</span></td>
-                                <td>Sarah Parker</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <span class="kpi-label">Pending</span>
+                    <span class="kpi-value">492</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--success-soft); color: var(--success);"><i class="fas fa-check-circle"></i></div>
+                        <span style="color: var(--success); font-size: 11px; font-weight: 700;"><i class="fas fa-arrow-up"></i> 12%</span>
+                    </div>
+                    <span class="kpi-label">Resolved</span>
+                    <span class="kpi-value">842</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--info-soft); color: var(--info);"><i class="fas fa-redo"></i></div>
+                    </div>
+                    <span class="kpi-label">Reopened</span>
+                    <span class="kpi-value">24</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--success-soft); color: var(--success);"><i class="fas fa-smile"></i></div>
+                    </div>
+                    <span class="kpi-label">CSAT Score</span>
+                    <span class="kpi-value">4.92/5</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--primary-soft); color: var(--primary);"><i class="fas fa-bolt"></i></div>
+                    </div>
+                    <span class="kpi-label">Avg Response</span>
+                    <span class="kpi-value">14.2m</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--danger-soft); color: var(--danger);"><i class="fas fa-exclamation-triangle"></i></div>
+                    </div>
+                    <span class="kpi-label">SLA Breaches</span>
+                    <span class="kpi-value">3</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon-box" style="background: var(--info-soft); color: var(--info);"><i class="fas fa-user-tag"></i></div>
+                    </div>
+                    <span class="kpi-label">Assigned Agents</span>
+                    <span class="kpi-value">142</span>
                 </div>
             </div>
 
-            <!-- Right Activity Area -->
-            <div class="activity-area">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Recent Team Activity</h3>
-                    </div>
-                    <div class="activity-feed">
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: var(--primary-soft); color: var(--primary);">ER</div>
-                            <div class="activity-content">
-                                <span class="activity-user">Elena Rodriguez</span> closed <span style="font-weight: 600;">#TCK-8712</span> (Database Latency)
-                                <div class="activity-time">2 mins ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: var(--success-soft); color: var(--success);">SP</div>
-                            <div class="activity-content">
-                                <span class="activity-user">Sarah Parker</span> responded to <span style="font-weight: 600;">#TCK-8817</span>
-                                <div class="activity-time">12 mins ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: var(--info-soft); color: var(--info);">JV</div>
-                            <div class="activity-content">
-                                <span class="activity-user">Julia Vance</span> escalated <span style="font-weight: 600;">#TCK-8819</span> to Engineering
-                                <div class="activity-time">24 mins ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: #f3f4f6;">MD</div>
-                            <div class="activity-content">
-                                <span class="activity-user">Marcus Day</span> reopened <span style="font-weight: 600;">#TCK-8650</span> (Feature Request)
-                                <div class="activity-time">1h ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: var(--primary-soft); color: var(--primary);">JD</div>
-                            <div class="activity-content">
-                                <span class="activity-user">John Doe</span> assigned <span style="font-weight: 600;">#TCK-8818</span> to self
-                                <div class="activity-time">1.5h ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: var(--warning-soft); color: var(--warning);">AS</div>
-                            <div class="activity-content">
-                                <span class="activity-user">System</span> generated 14 weekly reports
-                                <div class="activity-time">3h ago</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-avatar" style="background: var(--danger-soft); color: var(--danger);">!!</div>
-                            <div class="activity-content">
-                                <span class="activity-user">Alert</span> SLA breach on <span style="font-weight: 600;">#TCK-8210</span>
-                                <div class="activity-time">4h ago</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding: 16px; text-align: center; border-top: 1px solid var(--border);">
-                        <a href="#" class="btn-text" style="font-size: 12px;">View All Activity</a>
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="section-card">
+                    <div class="section-header"><h3 class="section-title">Weekly Ticket Trend</h3></div>
+                    <div class="chart-box">
+                        <svg class="line-chart-svg" viewBox="0 0 1000 200">
+                            <path fill="none" stroke-width="4" d="M0,180 L140,140 L280,160 L420,80 L560,110 L700,40 L840,70 L1000,90" />
+                        </svg>
                     </div>
                 </div>
+                <div class="section-card">
+                    <div class="section-header"><h3 class="section-title">Source Breakdown</h3></div>
+                    <div class="chart-box">
+                        <svg class="donut-chart-svg" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--border-thin)" stroke-width="20" />
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--primary)" stroke-width="20" stroke-dasharray="60 100" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Tickets Table -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h3 class="section-title">Live Tickets Queue</h3>
+                    <a href="tickets.html" style="color: var(--primary); font-size: 13px; text-decoration: none; font-weight: 700;">View Full Queue</a>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Customer</th>
+                            <th>Subject</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 700;">#TCK-8821</td>
+                            <td>Global Corp</td>
+                            <td style="font-weight: 600;">API Auth Failure in Prod</td>
+                            <td><span style="padding: 4px 10px; background: var(--danger-soft); color: var(--danger); border-radius: 8px; font-size: 11px; font-weight: 700;">High</span></td>
+                            <td><span style="padding: 4px 10px; background: var(--primary-soft); color: var(--primary); border-radius: 8px; font-size: 11px; font-weight: 700;">Open</span></td>
+                            <td>Elena R.</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700;">#TCK-8820</td>
+                            <td>Sarah Jenkins</td>
+                            <td style="font-weight: 600;">Billing Dispute: #INV-2291</td>
+                            <td><span style="padding: 4px 10px; background: var(--warning-soft); color: var(--warning); border-radius: 8px; font-size: 11px; font-weight: 700;">Medium</span></td>
+                            <td><span style="padding: 4px 10px; background: var(--table-header-bg); color: var(--text-muted); border-radius: 8px; font-size: 11px; font-weight: 700;">Pending</span></td>
+                            <td>Marcus A.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <!-- Activity Sidebar -->
+        <aside class="activity-sidebar">
+            <div class="section-card">
+                <div class="section-header"><h3 class="section-title">Team Activity</h3></div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-avatar" style="color: var(--primary);">ER</div>
+                        <div class="activity-info">
+                            <span style="font-weight: 700;">Elena R.</span> closed #TCK-8712
+                            <div class="activity-time">2 mins ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-avatar" style="color: var(--success);">SP</div>
+                        <div class="activity-info">
+                            <span style="font-weight: 700;">Sarah P.</span> responded to #TCK-8817
+                            <div class="activity-time">12 mins ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-avatar" style="color: var(--info);">JV</div>
+                        <div class="activity-info">
+                            <span style="font-weight: 700;">Julia V.</span> escalated #TCK-8819
+                            <div class="activity-time">24 mins ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Simple interaction for the dashboard
-            console.log('Enterprise Support Dashboard Loaded');
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
             
-            // Handle profile click
-            document.querySelector('.user-profile').addEventListener('click', () => {
-                alert('User Profile Settings Coming Soon');
+            // Theme Logic
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
             });
 
-            // Handle search
-            const searchInput = document.querySelector('.search-box input');
-            searchInput.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') {
-                    alert('Searching for: ' + searchInput.value);
+            function setTheme(theme) {
+                body.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                if (theme === 'dark') {
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
                 }
-            });
+            }
 
-            // Handle Ticket Row Click
-            const rows = document.querySelectorAll('.ticket-table tr');
-            rows.forEach((row, index) => {
-                if(index > 0) { // Skip header
-                    row.style.cursor = 'pointer';
-                    row.addEventListener('click', () => {
-                        const id = row.querySelector('td').innerText;
-                        alert('Opening Ticket Detail: ' + id);
-                    });
-                }
-            });
+            console.log('Final Glassmorphism Dashboard with Persistent Theme Toggle Loaded');
         });
     </script>
 </body>
